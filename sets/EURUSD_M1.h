@@ -12,15 +12,12 @@ struct Stg_Momentum_EURUSD_M1_Params : Stg_Momentum_Params {
     Momentum_Period = 32;
     Momentum_Applied_Price = 3;
     Momentum_Shift = 0;
-    Momentum_TrailingStopMethod = 6;
-    Momentum_TrailingProfitMethod = 11;
+    Momentum_SignalOpenMethod = 0;
     Momentum_SignalOpenLevel = 36;
-    Momentum_SignalBaseMethod = 0;
-    Momentum_SignalOpenMethod1 = 0;
-    Momentum_SignalOpenMethod2 = 0;
+    Momentum_SignalCloseMethod = 0;
     Momentum_SignalCloseLevel = 36;
-    Momentum_SignalCloseMethod1 = 0;
-    Momentum_SignalCloseMethod2 = 0;
+    Momentum_PriceLimitMethod = 0;
+    Momentum_PriceLimitLevel = 0;
     Momentum_MaxSpread = 2;
   }
 };

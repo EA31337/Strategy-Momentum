@@ -15,32 +15,27 @@
 
 // User input params.
 string __Momentum_Parameters__ = "-- Momentum strategy params --";  // >>> MOMENTUM <<<
-int Momentum_Active_Tf = 0;  // Activate timeframes (1-255, e.g. M1=1,M5=2,M15=4,M30=8,H1=16,H2=32...)
-ENUM_TRAIL_TYPE Momentum_TrailingStopMethod = 22;                  // Trail stop method
-ENUM_TRAIL_TYPE Momentum_TrailingProfitMethod = 1;                 // Trail profit method
-int Momentum_Period = 12;                                          // Period Fast
-ENUM_APPLIED_PRICE Momentum_Applied_Price = PRICE_CLOSE;           // Applied Price
-double Momentum_SignalOpenLevel = 0.00000000;                      // Signal open level
-int Momentum1_SignalBaseMethod = 0;                                // Signal base method (0-
-int Momentum1_OpenCondition1 = 0;                                  // Open condition 1 (0-1023)
-int Momentum1_OpenCondition2 = 0;                                  // Open condition 2 (0-1023)
-ENUM_MARKET_EVENT Momentum1_CloseCondition = C_MOMENTUM_BUY_SELL;  // Close condition for M1
-double Momentum_MaxSpread = 6.0;                                   // Max spread to trade (pips)
+int Momentum_Period = 12;                                           // Period Fast
+ENUM_APPLIED_PRICE Momentum_Applied_Price = PRICE_CLOSE;            // Applied Price
+double Momentum_SignalOpenLevel = 0.00000000;                       // Signal open level
+int Momentum_SignalOpenMethod = 0;                                  // Signal open method (0-
+double Momentum_SignalCloseLevel = 0.00000000;                      // Signal close level
+int Momentum_SignalCloseMethod = 0;                                 // Signal close method (0-
+INPUT int Momentum_PriceLimitMethod = 0;                            // Price limit method
+INPUT double Momentum_PriceLimitLevel = 0;                          // Price limit level
+double Momentum_MaxSpread = 6.0;                                    // Max spread to trade (pips)
 
 // Struct to define strategy parameters to override.
 struct Stg_Momentum_Params : Stg_Params {
   unsigned int Momentum_Period;
   ENUM_APPLIED_PRICE Momentum_Applied_Price;
   int Momentum_Shift;
-  ENUM_TRAIL_TYPE Momentum_TrailingStopMethod;
-  ENUM_TRAIL_TYPE Momentum_TrailingProfitMethod;
+  int Momentum_SignalOpenMethod;
   double Momentum_SignalOpenLevel;
-  long Momentum_SignalBaseMethod;
-  long Momentum_SignalOpenMethod1;
-  long Momentum_SignalOpenMethod2;
+  int Momentum_SignalCloseMethod;
   double Momentum_SignalCloseLevel;
-  ENUM_MARKET_EVENT Momentum_SignalCloseMethod1;
-  ENUM_MARKET_EVENT Momentum_SignalCloseMethod2;
+  int Momentum_PriceLimitMethod;
+  double Momentum_PriceLimitLevel;
   double Momentum_MaxSpread;
 
   // Constructor: Set default param values.
@@ -48,15 +43,12 @@ struct Stg_Momentum_Params : Stg_Params {
       : Momentum_Period(::Momentum_Period),
         Momentum_Applied_Price(::Momentum_Applied_Price),
         Momentum_Shift(::Momentum_Shift),
-        Momentum_TrailingStopMethod(::Momentum_TrailingStopMethod),
-        Momentum_TrailingProfitMethod(::Momentum_TrailingProfitMethod),
+        Momentum_SignalOpenMethod(::Momentum_SignalOpenMethod),
         Momentum_SignalOpenLevel(::Momentum_SignalOpenLevel),
-        Momentum_SignalBaseMethod(::Momentum_SignalBaseMethod),
-        Momentum_SignalOpenMethod1(::Momentum_SignalOpenMethod1),
-        Momentum_SignalOpenMethod2(::Momentum_SignalOpenMethod2),
+        Momentum_SignalCloseMethod(::Momentum_SignalCloseMethod),
         Momentum_SignalCloseLevel(::Momentum_SignalCloseLevel),
-        Momentum_SignalCloseMethod1(::Momentum_SignalCloseMethod1),
-        Momentum_SignalCloseMethod2(::Momentum_SignalCloseMethod2),
+        Momentum_PriceLimitMethod(::Momentum_PriceLimitMethod),
+        Momentum_PriceLimitLevel(::Momentum_PriceLimitLevel),
         Momentum_MaxSpread(::Momentum_MaxSpread) {}
 };
 
@@ -108,11 +100,8 @@ class Stg_Momentum : public Strategy {
     StgParams sparams(new Trade(_tf, _Symbol), new Indi_Momentum(adx_params, adx_iparams, cparams), NULL, NULL);
     sparams.logger.SetLevel(_log_level);
     sparams.SetMagicNo(_magic_no);
-    sparams.SetSignals(_params.Momentum_SignalBaseMethod, _params.Momentum_SignalOpenMethod1,
-                       _params.Momentum_SignalOpenMethod2, _params.Momentum_SignalCloseMethod1,
-                       _params.Momentum_SignalCloseMethod2, _params.Momentum_SignalOpenLevel,
-                       _params.Momentum_SignalCloseLevel);
-    sparams.SetStops(_params.Momentum_TrailingProfitMethod, _params.Momentum_TrailingStopMethod);
+    sparams.SetSignals(_params.Momentum_SignalOpenMethod, _params.Momentum_SignalOpenMethod,
+                       _params.Momentum_SignalCloseMethod, _params.Momentum_SignalCloseMethod);
     sparams.SetMaxSpread(_params.Momentum_MaxSpread);
     // Initialize strategy instance.
     Strategy *_strat = new Stg_Momentum(sparams, "Momentum");
@@ -125,17 +114,16 @@ class Stg_Momentum : public Strategy {
    * @param
    *   _cmd (int) - type of trade order command
    *   period (int) - period to check for
-   *   _signal_method (int) - signal method to use by using bitwise AND operation
-   *   _signal_level1 (double) - signal level to consider the signal
+   *   _method (int) - signal method to use by using bitwise AND operation
+   *   _level1 (double) - signal level to consider the signal
    */
-  bool SignalOpen(ENUM_ORDER_TYPE _cmd, long _signal_method = EMPTY, double _signal_level = EMPTY) {
+  bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method = 0, double _level = 0.0) {
     bool _result = false;
     double momentum_0 = ((Indi_Momentum *)this.Data()).GetValue(0);
     double momentum_1 = ((Indi_Momentum *)this.Data()).GetValue(1);
     double momentum_2 = ((Indi_Momentum *)this.Data()).GetValue(2);
-    if (_signal_method == EMPTY) _signal_method = GetSignalBaseMethod();
-    if (_signal_level1 == EMPTY) _signal_level1 = GetSignalLevel1();
-    if (_signal_level2 == EMPTY) _signal_level2 = GetSignalLevel2();
+    if (_level1 == EMPTY) _level1 = GetSignalLevel1();
+    if (_level2 == EMPTY) _level2 = GetSignalLevel2();
     switch (_cmd) {
       case ORDER_TYPE_BUY:
         break;
@@ -148,8 +136,23 @@ class Stg_Momentum : public Strategy {
   /**
    * Check strategy's closing signal.
    */
-  bool SignalClose(ENUM_ORDER_TYPE _cmd, long _signal_method = EMPTY, double _signal_level = EMPTY) {
-    if (_signal_level == EMPTY) _signal_level = GetSignalCloseLevel();
-    return SignalOpen(Order::NegateOrderType(_cmd), _signal_method, _signal_level);
+  bool SignalClose(ENUM_ORDER_TYPE _cmd, int _method = 0, double _level = 0.0) {
+    return SignalOpen(Order::NegateOrderType(_cmd), _method, _level);
+  }
+
+  /**
+   * Gets price limit value for profit take or stop loss.
+   */
+  double PriceLimit(ENUM_ORDER_TYPE _cmd, ENUM_STG_PRICE_LIMIT_MODE _mode, int _method = 0, double _level = 0.0) {
+    double _trail = _level * Market().GetPipSize();
+    int _direction = Order::OrderDirection(_cmd) * (_mode == LIMIT_VALUE_STOP ? -1 : 1);
+    double _default_value = Market().GetCloseOffer(_cmd) + _trail * _method * _direction;
+    double _result = _default_value;
+    switch (_method) {
+      case 0: {
+        // @todo
+      }
+    }
+    return _result;
   }
 };
