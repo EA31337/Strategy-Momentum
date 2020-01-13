@@ -15,8 +15,9 @@
 
 // User input params.
 string __Momentum_Parameters__ = "-- Momentum strategy params --";  // >>> MOMENTUM <<<
-int Momentum_Period = 12;                                           // Period Fast
+int Momentum_Period = 12;                                           // Averaging period
 ENUM_APPLIED_PRICE Momentum_Applied_Price = PRICE_CLOSE;            // Applied Price
+int Momentum_Shift = 0;                                             // Shift
 double Momentum_SignalOpenLevel = 0.00000000;                       // Signal open level
 int Momentum_SignalOpenMethod = 0;                                  // Signal open method (0-
 double Momentum_SignalCloseLevel = 0.00000000;                      // Signal close level
@@ -95,9 +96,9 @@ class Stg_Momentum : public Strategy {
     }
     // Initialize strategy parameters.
     ChartParams cparams(_tf);
-    Momentum_Params adx_params(_params.Momentum_Period, _params.Momentum_Applied_Price);
-    IndicatorParams adx_iparams(10, INDI_Momentum);
-    StgParams sparams(new Trade(_tf, _Symbol), new Indi_Momentum(adx_params, adx_iparams, cparams), NULL, NULL);
+    Momentum_Params mom_params(_params.Momentum_Period, _params.Momentum_Applied_Price);
+    IndicatorParams mom_iparams(10, INDI_MOMENTUM);
+    StgParams sparams(new Trade(_tf, _Symbol), new Indi_Momentum(mom_params, mom_iparams, cparams), NULL, NULL);
     sparams.logger.SetLevel(_log_level);
     sparams.SetMagicNo(_magic_no);
     sparams.SetSignals(_params.Momentum_SignalOpenMethod, _params.Momentum_SignalOpenMethod,
@@ -115,15 +116,13 @@ class Stg_Momentum : public Strategy {
    *   _cmd (int) - type of trade order command
    *   period (int) - period to check for
    *   _method (int) - signal method to use by using bitwise AND operation
-   *   _level1 (double) - signal level to consider the signal
+   *   _level (double) - signal level to consider the signal
    */
   bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method = 0, double _level = 0.0) {
     bool _result = false;
     double momentum_0 = ((Indi_Momentum *)this.Data()).GetValue(0);
     double momentum_1 = ((Indi_Momentum *)this.Data()).GetValue(1);
     double momentum_2 = ((Indi_Momentum *)this.Data()).GetValue(2);
-    if (_level1 == EMPTY) _level1 = GetSignalLevel1();
-    if (_level2 == EMPTY) _level2 = GetSignalLevel2();
     switch (_cmd) {
       case ORDER_TYPE_BUY:
         break;
