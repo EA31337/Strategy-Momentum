@@ -87,6 +87,7 @@ class Stg_Momentum : public Strategy {
     sparams.SetSignals(_params.Momentum_SignalOpenMethod, _params.Momentum_SignalOpenMethod,
                        _params.Momentum_SignalOpenFilterMethod, _params.Momentum_SignalOpenBoostMethod,
                        _params.Momentum_SignalCloseMethod, _params.Momentum_SignalCloseMethod);
+    sparams.SetPriceLimits(_params.Momentum_PriceLimitMethod, _params.Momentum_PriceLimitLevel);
     sparams.SetMaxSpread(_params.Momentum_MaxSpread);
     // Initialize strategy instance.
     Strategy *_strat = new Stg_Momentum(sparams, "Momentum");
