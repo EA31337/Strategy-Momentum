@@ -82,7 +82,7 @@ class Stg_Momentum : public Strategy {
     MomentumParams mom_params(_params.Momentum_Period, _params.Momentum_Applied_Price);
     mom_params.SetTf(_tf);
     StgParams sparams(new Trade(_tf, _Symbol), new Indi_Momentum(mom_params), NULL, NULL);
-    sparams.logger.SetLevel(_log_level);
+    sparams.logger.Ptr().SetLevel(_log_level);
     sparams.SetMagicNo(_magic_no);
     sparams.SetSignals(_params.Momentum_SignalOpenMethod, _params.Momentum_SignalOpenMethod,
                        _params.Momentum_SignalOpenFilterMethod, _params.Momentum_SignalOpenBoostMethod,
