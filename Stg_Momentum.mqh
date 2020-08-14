@@ -4,18 +4,18 @@
  */
 
 // User input params.
-int Momentum_Period = 12;                                 // Averaging period
-ENUM_APPLIED_PRICE Momentum_Applied_Price = PRICE_CLOSE;  // Applied Price
-int Momentum_Shift = 0;                                   // Shift
-double Momentum_SignalOpenLevel = 0.00000000;             // Signal open level
-int Momentum_SignalOpenFilterMethod = 0.00000000;         // Signal open filter method
-int Momentum_SignalOpenBoostMethod = 0.00000000;          // Signal open boost method
-int Momentum_SignalOpenMethod = 0;                        // Signal open method (0-
-double Momentum_SignalCloseLevel = 0.00000000;            // Signal close level
-int Momentum_SignalCloseMethod = 0;                       // Signal close method (0-
-INPUT int Momentum_PriceLimitMethod = 0;                  // Price limit method
-INPUT float Momentum_PriceLimitLevel = 0;                // Price limit level
-double Momentum_MaxSpread = 6.0;                          // Max spread to trade (pips)
+INPUT int Momentum_Period = 12;                                 // Averaging period
+INPUT ENUM_APPLIED_PRICE Momentum_Applied_Price = PRICE_CLOSE;  // Applied Price
+INPUT int Momentum_Shift = 0;                                   // Shift
+INPUT float Momentum_SignalOpenLevel = 0.00000000f;             // Signal open level
+INPUT int Momentum_SignalOpenFilterMethod = 0.00000000;         // Signal open filter method
+INPUT int Momentum_SignalOpenBoostMethod = 0.00000000;          // Signal open boost method
+INPUT int Momentum_SignalOpenMethod = 0;                        // Signal open method (0-
+INPUT float Momentum_SignalCloseLevel = 0.00000000;             // Signal close level
+INPUT int Momentum_SignalCloseMethod = 0;                       // Signal close method (0-
+INPUT int Momentum_PriceLimitMethod = 0;                        // Price limit method
+INPUT float Momentum_PriceLimitLevel = 0;                       // Price limit level
+INPUT float Momentum_MaxSpread = 6.0;                           // Max spread to trade (pips)
 
 // Includes.
 #include <EA31337-classes/Indicators/Indi_Momentum.mqh>
@@ -27,14 +27,14 @@ struct Stg_Momentum_Params : StgParams {
   ENUM_APPLIED_PRICE Momentum_Applied_Price;
   int Momentum_Shift;
   int Momentum_SignalOpenMethod;
-  double Momentum_SignalOpenLevel;
+  float Momentum_SignalOpenLevel;
   int Momentum_SignalOpenFilterMethod;
   int Momentum_SignalOpenBoostMethod;
   int Momentum_SignalCloseMethod;
-  double Momentum_SignalCloseLevel;
+  float Momentum_SignalCloseLevel;
   int Momentum_PriceLimitMethod;
-  double Momentum_PriceLimitLevel;
-  double Momentum_MaxSpread;
+  float Momentum_PriceLimitLevel;
+  float Momentum_MaxSpread;
 
   // Constructor: Set default param values.
   Stg_Momentum_Params()
@@ -171,6 +171,6 @@ class Stg_Momentum : public Strategy {
       }
       _result += _trail * _direction;
     }
-    return _result;
+    return (float)_result;
   }
 };
