@@ -4,14 +4,14 @@
  */
 
 // Defines indicator's parameter values for the given pair symbol and timeframe.
-struct Indi_Momentum_Params_M1 : Indi_Momentum_Params {
-  Indi_Momentum_Params_M1() : Indi_Momentum_Params(indi_momentum_defaults, PERIOD_M1) { shift = 0; }
-} indi_momentum_m1;
+struct Indi_Momentum_Params_H8 : Indi_Momentum_Params {
+  Indi_Momentum_Params_H8() : Indi_Momentum_Params(indi_momentum_defaults, PERIOD_H8) { shift = 0; }
+} indi_momentum_h8;
 
 // Defines strategy's parameter values for the given pair symbol and timeframe.
-struct Stg_Momentum_Params_M1 : StgParams {
+struct Stg_Momentum_Params_H8 : StgParams {
   // Struct constructor.
-  Stg_Momentum_Params_M1() : StgParams(stg_momentum_defaults) {
+  Stg_Momentum_Params_H8() : StgParams(stg_momentum_defaults) {
     lot_size = 0;
     signal_open_method = 0;
     signal_open_filter = 1;
@@ -24,4 +24,4 @@ struct Stg_Momentum_Params_M1 : StgParams {
     tick_filter_method = 1;
     max_spread = 0;
   }
-} stg_momentum_m1;
+} stg_momentum_h8;

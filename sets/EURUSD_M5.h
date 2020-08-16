@@ -1,21 +1,27 @@
-//+------------------------------------------------------------------+
-//|                  EA31337 - multi-strategy advanced trading robot |
-//|                       Copyright 2016-2020, 31337 Investments Ltd |
-//|                                       https://github.com/EA31337 |
-//+------------------------------------------------------------------+
+/*
+ * @file
+ * Defines default strategy parameter values for the given timeframe.
+ */
+
+// Defines indicator's parameter values for the given pair symbol and timeframe.
+struct Indi_Momentum_Params_M5 : Indi_Momentum_Params {
+  Indi_Momentum_Params_M5() : Indi_Momentum_Params(indi_momentum_defaults, PERIOD_M5) { shift = 0; }
+} indi_momentum_m5;
 
 // Defines strategy's parameter values for the given pair symbol and timeframe.
-struct Stg_Momentum_EURUSD_M5_Params : Stg_Momentum_Params {
-  Stg_Momentum_EURUSD_M5_Params() {
-    Momentum_Period = 2;
-    Momentum_Applied_Price = 3;
-    Momentum_Shift = 0;
-    Momentum_SignalOpenMethod = -61;
-    Momentum_SignalOpenLevel = 36;
-    Momentum_SignalCloseMethod = 1;
-    Momentum_SignalCloseLevel = 36;
-    Momentum_PriceLimitMethod = 0;
-    Momentum_PriceLimitLevel = 0;
-    Momentum_MaxSpread = 3;
+struct Stg_Momentum_Params_M5 : StgParams {
+  // Struct constructor.
+  Stg_Momentum_Params_M5() : StgParams(stg_momentum_defaults) {
+    lot_size = 0;
+    signal_open_method = 0;
+    signal_open_filter = 1;
+    signal_open_level = 0;
+    signal_open_boost = 0;
+    signal_close_method = 0;
+    signal_close_level = 0;
+    price_limit_method = 0;
+    price_limit_level = 2;
+    tick_filter_method = 1;
+    max_spread = 0;
   }
-} stg_mom_m5;
+} stg_momentum_m5;

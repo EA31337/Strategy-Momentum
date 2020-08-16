@@ -3,58 +3,67 @@
  * Implements Momentum strategy based on the Momentum indicator.
  */
 
-// User input params.
-INPUT int Momentum_Period = 12;                                 // Averaging period
-INPUT ENUM_APPLIED_PRICE Momentum_Applied_Price = PRICE_CLOSE;  // Applied Price
-INPUT int Momentum_Shift = 0;                                   // Shift
-INPUT float Momentum_SignalOpenLevel = 0.00000000f;             // Signal open level
-INPUT int Momentum_SignalOpenFilterMethod = 0.00000000;         // Signal open filter method
-INPUT int Momentum_SignalOpenBoostMethod = 0.00000000;          // Signal open boost method
-INPUT int Momentum_SignalOpenMethod = 0;                        // Signal open method (0-
-INPUT float Momentum_SignalCloseLevel = 0.00000000;             // Signal close level
-INPUT int Momentum_SignalCloseMethod = 0;                       // Signal close method (0-
-INPUT int Momentum_PriceLimitMethod = 0;                        // Price limit method
-INPUT float Momentum_PriceLimitLevel = 0;                       // Price limit level
-INPUT float Momentum_MaxSpread = 6.0;                           // Max spread to trade (pips)
-
 // Includes.
 #include <EA31337-classes/Indicators/Indi_Momentum.mqh>
 #include <EA31337-classes/Strategy.mqh>
 
+// User input params.
+INPUT float Momentum_LotSize = 0;                        // Lot size
+INPUT float Momentum_SignalOpenLevel = 0.00000000f;      // Signal open level
+INPUT int Momentum_SignalOpenFilterMethod = 0.00000000;  // Signal open filter method
+INPUT int Momentum_SignalOpenBoostMethod = 0.00000000;   // Signal open boost method
+INPUT int Momentum_SignalOpenMethod = 0;                 // Signal open method (0-
+INPUT float Momentum_SignalCloseLevel = 0.00000000;      // Signal close level
+INPUT int Momentum_SignalCloseMethod = 0;                // Signal close method (0-
+INPUT int Momentum_PriceLimitMethod = 0;                 // Price limit method
+INPUT float Momentum_PriceLimitLevel = 0;                // Price limit level
+INPUT int Momentum_TickFilterMethod = 0;                 // Tick filter method
+INPUT float Momentum_MaxSpread = 6.0;                    // Max spread to trade (pips)
+INPUT int Momentum_Shift = 0;                            // Shift
+INPUT string __Momentum_Indi_Momentum_Parameters__ =
+    "-- Momentum strategy: Momentum indicator params --";            // >>> Momentum strategy: Momentum indicator <<<
+INPUT int Indi_Momentum_Period = 12;                                 // Averaging period
+INPUT ENUM_APPLIED_PRICE Indi_Momentum_Applied_Price = PRICE_CLOSE;  // Applied Price
+
+// Structs.
+
+// Defines struct with default user indicator values.
+struct Indi_Momentum_Params_Defaults : MomentumParams {
+  Indi_Momentum_Params_Defaults() : MomentumParams(::Indi_Momentum_Period, ::Indi_Momentum_Applied_Price) {}
+} indi_momentum_defaults;
+
+// Defines struct to store indicator parameter values.
+struct Indi_Momentum_Params : public MomentumParams {
+  // Struct constructors.
+  void Indi_Momentum_Params(MomentumParams &_params, ENUM_TIMEFRAMES _tf) : MomentumParams(_params, _tf) {}
+};
+
+// Defines struct with default user strategy values.
+struct Stg_Momentum_Params_Defaults : StgParams {
+  Stg_Momentum_Params_Defaults()
+      : StgParams(::Momentum_SignalOpenMethod, ::Momentum_SignalOpenFilterMethod, ::Momentum_SignalOpenLevel,
+                  ::Momentum_SignalOpenBoostMethod, ::Momentum_SignalCloseMethod, ::Momentum_SignalCloseLevel,
+                  ::Momentum_PriceLimitMethod, ::Momentum_PriceLimitLevel, ::Momentum_TickFilterMethod,
+                  ::Momentum_MaxSpread, ::Momentum_Shift) {}
+} stg_momentum_defaults;
+
 // Struct to define strategy parameters to override.
 struct Stg_Momentum_Params : StgParams {
-  unsigned int Momentum_Period;
-  ENUM_APPLIED_PRICE Momentum_Applied_Price;
-  int Momentum_Shift;
-  int Momentum_SignalOpenMethod;
-  float Momentum_SignalOpenLevel;
-  int Momentum_SignalOpenFilterMethod;
-  int Momentum_SignalOpenBoostMethod;
-  int Momentum_SignalCloseMethod;
-  float Momentum_SignalCloseLevel;
-  int Momentum_PriceLimitMethod;
-  float Momentum_PriceLimitLevel;
-  float Momentum_MaxSpread;
+  Indi_Momentum_Params iparams;
+  StgParams sparams;
 
-  // Constructor: Set default param values.
-  Stg_Momentum_Params()
-      : Momentum_Period(::Momentum_Period),
-        Momentum_Applied_Price(::Momentum_Applied_Price),
-        Momentum_Shift(::Momentum_Shift),
-        Momentum_SignalOpenMethod(::Momentum_SignalOpenMethod),
-        Momentum_SignalOpenLevel(::Momentum_SignalOpenLevel),
-        Momentum_SignalOpenFilterMethod(::Momentum_SignalOpenFilterMethod),
-        Momentum_SignalOpenBoostMethod(::Momentum_SignalOpenBoostMethod),
-        Momentum_SignalCloseMethod(::Momentum_SignalCloseMethod),
-        Momentum_SignalCloseLevel(::Momentum_SignalCloseLevel),
-        Momentum_PriceLimitMethod(::Momentum_PriceLimitMethod),
-        Momentum_PriceLimitLevel(::Momentum_PriceLimitLevel),
-        Momentum_MaxSpread(::Momentum_MaxSpread) {}
+  // Struct constructors.
+  Stg_Momentum_Params(Indi_Momentum_Params &_iparams, StgParams &_sparams)
+      : iparams(indi_momentum_defaults, _iparams.tf), sparams(stg_momentum_defaults) {
+    iparams = _iparams;
+    sparams = _sparams;
+  }
 };
 
 // Loads pair specific param values.
 #include "sets/EURUSD_H1.h"
 #include "sets/EURUSD_H4.h"
+#include "sets/EURUSD_H8.h"
 #include "sets/EURUSD_M1.h"
 #include "sets/EURUSD_M15.h"
 #include "sets/EURUSD_M30.h"
@@ -66,24 +75,24 @@ class Stg_Momentum : public Strategy {
 
   static Stg_Momentum *Init(ENUM_TIMEFRAMES _tf = NULL, long _magic_no = NULL, ENUM_LOG_LEVEL _log_level = V_INFO) {
     // Initialize strategy initial values.
-    Stg_Momentum_Params _params;
+    Indi_Momentum_Params _indi_params(indi_momentum_defaults, _tf);
+    StgParams _stg_params(stg_momentum_defaults);
     if (!Terminal::IsOptimization()) {
-      SetParamsByTf<Stg_Momentum_Params>(_params, _tf, stg_mom_m1, stg_mom_m5, stg_mom_m15, stg_mom_m30, stg_mom_h1,
-                                         stg_mom_h4, stg_mom_h4);
+      SetParamsByTf<Indi_Momentum_Params>(_indi_params, _tf, indi_momentum_m1, indi_momentum_m5, indi_momentum_m15,
+                                          indi_momentum_m30, indi_momentum_h1, indi_momentum_h4, indi_momentum_h8);
+      SetParamsByTf<StgParams>(_stg_params, _tf, stg_momentum_m1, stg_momentum_m5, stg_momentum_m15, stg_momentum_m30,
+                               stg_momentum_h1, stg_momentum_h4, stg_momentum_h8);
     }
+    // Initialize indicator.
+    MomentumParams mom_params(_indi_params);
+    _stg_params.SetIndicator(new Indi_Momentum(_indi_params));
     // Initialize strategy parameters.
-    MomentumParams mom_params(_params.Momentum_Period, _params.Momentum_Applied_Price);
-    mom_params.SetTf(_tf);
-    StgParams sparams(new Trade(_tf, _Symbol), new Indi_Momentum(mom_params), NULL, NULL);
-    sparams.logger.Ptr().SetLevel(_log_level);
-    sparams.SetMagicNo(_magic_no);
-    sparams.SetSignals(_params.Momentum_SignalOpenMethod, _params.Momentum_SignalOpenMethod,
-                       _params.Momentum_SignalOpenFilterMethod, _params.Momentum_SignalOpenBoostMethod,
-                       _params.Momentum_SignalCloseMethod, _params.Momentum_SignalCloseMethod);
-    sparams.SetPriceLimits(_params.Momentum_PriceLimitMethod, _params.Momentum_PriceLimitLevel);
-    sparams.SetMaxSpread(_params.Momentum_MaxSpread);
+    _stg_params.GetLog().SetLevel(_log_level);
+    _stg_params.SetMagicNo(_magic_no);
+    _stg_params.SetTf(_tf, _Symbol);
     // Initialize strategy instance.
-    Strategy *_strat = new Stg_Momentum(sparams, "Momentum");
+    Strategy *_strat = new Stg_Momentum(_stg_params, "Momentum");
+    _stg_params.SetStops(_strat, _strat);
     return _strat;
   }
 
@@ -145,27 +154,27 @@ class Stg_Momentum : public Strategy {
     if (_is_valid) {
       switch (_method) {
         case 0: {
-          int _bar_count = (int)_level * (int)_indi.GetPeriod();
-          _result = _direction < 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest(_bar_count))
-                                   : _indi.GetPrice(PRICE_LOW, _indi.GetLowest(_bar_count));
+          int _bar_count0 = (int)_level * (int)_indi.GetPeriod();
+          _result = _direction < 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest(_bar_count0))
+                                   : _indi.GetPrice(PRICE_LOW, _indi.GetLowest(_bar_count0));
           break;
         }
         case 1: {
-          int _bar_count = (int)_level * (int)_indi.GetPeriod() * 2;
-          _result = _direction < 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest(_bar_count))
-                                   : _indi.GetPrice(PRICE_LOW, _indi.GetLowest(_bar_count));
+          int _bar_count1 = (int)_level * (int)_indi.GetPeriod() * 2;
+          _result = _direction < 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest(_bar_count1))
+                                   : _indi.GetPrice(PRICE_LOW, _indi.GetLowest(_bar_count1));
           break;
         }
         case 2: {
-          int _bar_count = (int)_level * (int)_indi.GetPeriod();
-          _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest(_bar_count))
-                                   : _indi.GetPrice(PRICE_LOW, _indi.GetLowest(_bar_count));
+          int _bar_count2 = (int)_level * (int)_indi.GetPeriod();
+          _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest(_bar_count2))
+                                   : _indi.GetPrice(PRICE_LOW, _indi.GetLowest(_bar_count2));
           break;
         }
         case 3: {
-          int _bar_count = (int)_level * (int)_indi.GetPeriod() * 2;
-          _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest(_bar_count))
-                                   : _indi.GetPrice(PRICE_LOW, _indi.GetLowest(_bar_count));
+          int _bar_count3 = (int)_level * (int)_indi.GetPeriod() * 2;
+          _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest(_bar_count3))
+                                   : _indi.GetPrice(PRICE_LOW, _indi.GetLowest(_bar_count3));
           break;
         }
       }
