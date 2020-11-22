@@ -15,8 +15,8 @@ INPUT int Momentum_SignalOpenBoostMethod = 0.00000000;   // Signal open boost me
 INPUT int Momentum_SignalOpenMethod = 0;                 // Signal open method (0-
 INPUT float Momentum_SignalCloseLevel = 0.00000000;      // Signal close level
 INPUT int Momentum_SignalCloseMethod = 0;                // Signal close method (0-
-INPUT int Momentum_PriceLimitMethod = 0;                 // Price limit method
-INPUT float Momentum_PriceLimitLevel = 0;                // Price limit level
+INPUT int Momentum_PriceStopMethod = 0;                  // Price stop method
+INPUT float Momentum_PriceStopLevel = 0;                 // Price stop level
 INPUT int Momentum_TickFilterMethod = 0;                 // Tick filter method
 INPUT float Momentum_MaxSpread = 6.0;                    // Max spread to trade (pips)
 INPUT int Momentum_Shift = 0;                            // Shift
@@ -43,7 +43,7 @@ struct Stg_Momentum_Params_Defaults : StgParams {
   Stg_Momentum_Params_Defaults()
       : StgParams(::Momentum_SignalOpenMethod, ::Momentum_SignalOpenFilterMethod, ::Momentum_SignalOpenLevel,
                   ::Momentum_SignalOpenBoostMethod, ::Momentum_SignalCloseMethod, ::Momentum_SignalCloseLevel,
-                  ::Momentum_PriceLimitMethod, ::Momentum_PriceLimitLevel, ::Momentum_TickFilterMethod,
+                  ::Momentum_PriceStopMethod, ::Momentum_PriceStopLevel, ::Momentum_TickFilterMethod,
                   ::Momentum_MaxSpread, ::Momentum_Shift) {}
 } stg_momentum_defaults;
 
@@ -142,9 +142,9 @@ class Stg_Momentum : public Strategy {
   }
 
   /**
-   * Gets price limit value for profit take or stop loss.
+   * Gets price stop value for profit take or stop loss.
    */
-  float PriceLimit(ENUM_ORDER_TYPE _cmd, ENUM_ORDER_TYPE_VALUE _mode, int _method = 0, float _level = 0.0) {
+  float PriceStop(ENUM_ORDER_TYPE _cmd, ENUM_ORDER_TYPE_VALUE _mode, int _method = 0, float _level = 0.0) {
     Indi_Momentum *_indi = Data();
     bool _is_valid = _indi[CURR].IsValid() && _indi[PREV].IsValid() && _indi[PPREV].IsValid();
     double _trail = _level * Market().GetPipSize();
