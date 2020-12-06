@@ -3,10 +3,6 @@
  * Implements Momentum strategy based on the Momentum indicator.
  */
 
-// Includes.
-#include <EA31337-classes/Indicators/Indi_Momentum.mqh>
-#include <EA31337-classes/Strategy.mqh>
-
 // User input params.
 INPUT float Momentum_LotSize = 0;                        // Lot size
 INPUT float Momentum_SignalOpenLevel = 0.00000000f;      // Signal open level

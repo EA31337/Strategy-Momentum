@@ -5,6 +5,8 @@
 
 // Includes EA31337 framework.
 #include <EA31337-classes/EA.mqh>
+#include <EA31337-classes/Indicators/Indi_Momentum.mqh>
+#include <EA31337-classes/Strategy.mqh>
 
 // Inputs.
 input string __Momentum_Parameters__ = "-- Momentum strategy params --";  // >>> MOMENTUM <<<
