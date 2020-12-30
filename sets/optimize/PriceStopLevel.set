@@ -1,0 +1,7 @@
+; Optimize price stop level param.
+Momentum_PriceStopLevel,1=10
+Momentum_PriceStopLevel,2=5
+Momentum_PriceStopLevel,3=40
+Momentum_PriceStopLevel,F=1
+Momentum_SignalOpenFilterMethod=1
+Momentum_TickFilterMethod=1

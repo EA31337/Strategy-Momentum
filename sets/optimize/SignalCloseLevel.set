@@ -1,0 +1,7 @@
+; Optimize signal close level param.
+Momentum_SignalCloseLevel,1=10
+Momentum_SignalCloseLevel,2=5
+Momentum_SignalCloseLevel,3=40
+Momentum_SignalCloseLevel,F=1
+Momentum_SignalOpenFilterMethod=1
+Momentum_TickFilterMethod=1

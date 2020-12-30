@@ -1,0 +1,7 @@
+; Optimize signal open method param.
+Momentum_SignalOpenFilterMethod=1
+Momentum_SignalOpenMethod,1=-4
+Momentum_SignalOpenMethod,2=1
+Momentum_SignalOpenMethod,3=4
+Momentum_SignalOpenMethod,F=1
+Momentum_TickFilterMethod=1
