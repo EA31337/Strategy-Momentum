@@ -4,19 +4,19 @@
  */
 
 // User input params.
-INPUT float Momentum_LotSize = 0;                        // Lot size
-INPUT float Momentum_SignalOpenLevel = 0.00000000f;      // Signal open level
-INPUT int Momentum_SignalOpenFilterMethod = 0.00000000;  // Signal open filter method
-INPUT int Momentum_SignalOpenBoostMethod = 0.00000000;   // Signal open boost method
-INPUT int Momentum_SignalOpenMethod = 0;                 // Signal open method (0-
-INPUT float Momentum_SignalCloseLevel = 0.00000000;      // Signal close level
-INPUT int Momentum_SignalCloseMethod = 0;                // Signal close method (0-
-INPUT int Momentum_PriceStopMethod = 0;                  // Price stop method
-INPUT float Momentum_PriceStopLevel = 0;                 // Price stop level
-INPUT int Momentum_TickFilterMethod = 0;                 // Tick filter method
-INPUT float Momentum_MaxSpread = 6.0;                    // Max spread to trade (pips)
-INPUT int Momentum_Shift = 0;                            // Shift
-INPUT int Momentum_OrderCloseTime = -10;                 // Order close time in mins (>0) or bars (<0)
+INPUT float Momentum_LotSize = 0;                       // Lot size
+INPUT float Momentum_SignalOpenLevel = 0.0f;            // Signal open level
+INPUT int Momentum_SignalOpenFilterMethod = 1;          // Signal open filter method
+INPUT int Momentum_SignalOpenBoostMethod = 0.00000000;  // Signal open boost method
+INPUT int Momentum_SignalOpenMethod = 0;                // Signal open method (0-
+INPUT float Momentum_SignalCloseLevel = 0.0f;           // Signal close level
+INPUT int Momentum_SignalCloseMethod = 0;               // Signal close method (0-
+INPUT int Momentum_PriceStopMethod = 0;                 // Price stop method
+INPUT float Momentum_PriceStopLevel = 0;                // Price stop level
+INPUT int Momentum_TickFilterMethod = 1;                // Tick filter method
+INPUT float Momentum_MaxSpread = 4.0;                   // Max spread to trade (pips)
+INPUT int Momentum_Shift = 0;                           // Shift
+INPUT int Momentum_OrderCloseTime = -20;                // Order close time in mins (>0) or bars (<0)
 INPUT string __Momentum_Indi_Momentum_Parameters__ =
     "-- Momentum strategy: Momentum indicator params --";            // >>> Momentum strategy: Momentum indicator <<<
 INPUT int Indi_Momentum_Period = 12;                                 // Averaging period
