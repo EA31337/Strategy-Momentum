@@ -1,0 +1,7 @@
+; Optimize strategy indicator's Momentum period param.
+Momentum_Indi_Momentum_Period,1=4
+Momentum_Indi_Momentum_Period,2=4
+Momentum_Indi_Momentum_Period,3=24
+Momentum_Indi_Momentum_Period,F=1
+Momentum_SignalOpenFilterMethod=1
+Momentum_TickFilterMethod=1
