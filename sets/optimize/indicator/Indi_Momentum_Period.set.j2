@@ -9,5 +9,5 @@ Momentum_Indi_Momentum_Shift={{ shift | default(0) }}
 Momentum_LotSize={{ lot_size | default(0) }}
 Momentum_PriceStopMethod=0
 Momentum_SignalOpenFilterMethod=1
-Momentum_SignalOpenLevel={{ signal_open_level | default(0) }}
+Momentum_SignalOpenLevel={{ signal_open_level | replace("(float)", "") | float | default(0) }}
 Momentum_TickFilterMethod=1
