@@ -25,7 +25,7 @@ struct Stg_Momentum_Params_{{ Timeframe }} : StgParams {
     signal_close_method = {{ Momentum_SignalCloseMethod | default(0) }};
     signal_close_level = (float){{ Momentum_SignalCloseLevel | default(0) }};
     price_stop_method = {{ Momentum_PriceStopMethod | default(0) }};
-    price_stop_level = {{ Momentum_SignalCloseLevel | default(1) }};
+    price_stop_level = (float){{ Momentum_SignalCloseLevel | default(1) }};
     tick_filter_method = {{ Momentum_TickFilterMethod  | default(1) }};
     max_spread = {{ Momentum_MaxSpread | default(0) }};
   }
