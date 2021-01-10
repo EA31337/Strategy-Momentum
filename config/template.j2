@@ -4,10 +4,9 @@
  */
 
 // Defines indicator's parameter values for the given pair symbol and timeframe.
-struct Indi_Momentum_Params_{{ Timeframe }} : Indi_Momentum_Params {
-  Indi_Momentum_Params_{{ Timeframe }}() : Indi_Momentum_Params(indi_momentum_defaults, PERIOD_{{ Timeframe }}) {
+struct Indi_Momentum_Params_{{ Timeframe }} : MomentumParams {
+  Indi_Momentum_Params_{{ Timeframe }}() : MomentumParams(indi_momentum_defaults, PERIOD_{{ Timeframe }}) {
     applied_price = (ENUM_APPLIED_PRICE){{ Momentum_Indi_Momentum_Applied_Price | default(0) }};
-    ma_method = {{ Momentum_Indi_Momentum_MA_Method | default(0) }};
     period = {{ Momentum_Indi_Momentum_Period | default(0) }};
     shift = {{ Momentum_Shift | default(0) }};
   }

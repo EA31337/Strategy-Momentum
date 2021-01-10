@@ -18,22 +18,19 @@ INPUT float Momentum_MaxSpread = 4.0;                   // Max spread to trade (
 INPUT int Momentum_Shift = 0;                           // Shift
 INPUT int Momentum_OrderCloseTime = -20;                // Order close time in mins (>0) or bars (<0)
 INPUT string __Momentum_Indi_Momentum_Parameters__ =
-    "-- Momentum strategy: Momentum indicator params --";            // >>> Momentum strategy: Momentum indicator <<<
-INPUT int Indi_Momentum_Period = 12;                                 // Averaging period
-INPUT ENUM_APPLIED_PRICE Indi_Momentum_Applied_Price = PRICE_CLOSE;  // Applied Price
+    "-- Momentum strategy: Momentum indicator params --";  // >>> Momentum strategy: Momentum indicator <<<
+INPUT int Momentum_Indi_Momentum_Period = 12;              // Averaging period
+INPUT ENUM_APPLIED_PRICE Momentum_Indi_Momentum_Applied_Price = PRICE_CLOSE;  // Applied Price
+INPUT int Momentum_Indi_Momentum_Shift = 0;                                   // Shift
 
 // Structs.
 
 // Defines struct with default user indicator values.
 struct Indi_Momentum_Params_Defaults : MomentumParams {
-  Indi_Momentum_Params_Defaults() : MomentumParams(::Indi_Momentum_Period, ::Indi_Momentum_Applied_Price) {}
+  Indi_Momentum_Params_Defaults()
+      : MomentumParams(::Momentum_Indi_Momentum_Period, ::Momentum_Indi_Momentum_Applied_Price,
+                       ::Momentum_Indi_Momentum_Shift) {}
 } indi_momentum_defaults;
-
-// Defines struct to store indicator parameter values.
-struct Indi_Momentum_Params : public MomentumParams {
-  // Struct constructors.
-  void Indi_Momentum_Params(MomentumParams &_params, ENUM_TIMEFRAMES _tf) : MomentumParams(_params, _tf) {}
-};
 
 // Defines struct with default user strategy values.
 struct Stg_Momentum_Params_Defaults : StgParams {
