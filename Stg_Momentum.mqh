@@ -43,11 +43,11 @@ struct Stg_Momentum_Params_Defaults : StgParams {
 
 // Struct to define strategy parameters to override.
 struct Stg_Momentum_Params : StgParams {
-  Indi_Momentum_Params iparams;
+  MomentumParams iparams;
   StgParams sparams;
 
   // Struct constructors.
-  Stg_Momentum_Params(Indi_Momentum_Params &_iparams, StgParams &_sparams)
+  Stg_Momentum_Params(MomentumParams &_iparams, StgParams &_sparams)
       : iparams(indi_momentum_defaults, _iparams.tf), sparams(stg_momentum_defaults) {
     iparams = _iparams;
     sparams = _sparams;
@@ -69,11 +69,11 @@ class Stg_Momentum : public Strategy {
 
   static Stg_Momentum *Init(ENUM_TIMEFRAMES _tf = NULL, long _magic_no = NULL, ENUM_LOG_LEVEL _log_level = V_INFO) {
     // Initialize strategy initial values.
-    Indi_Momentum_Params _indi_params(indi_momentum_defaults, _tf);
+    MomentumParams _indi_params(indi_momentum_defaults, _tf);
     StgParams _stg_params(stg_momentum_defaults);
     if (!Terminal::IsOptimization()) {
-      SetParamsByTf<Indi_Momentum_Params>(_indi_params, _tf, indi_momentum_m1, indi_momentum_m5, indi_momentum_m15,
-                                          indi_momentum_m30, indi_momentum_h1, indi_momentum_h4, indi_momentum_h8);
+      SetParamsByTf<MomentumParams>(_indi_params, _tf, indi_momentum_m1, indi_momentum_m5, indi_momentum_m15,
+                                    indi_momentum_m30, indi_momentum_h1, indi_momentum_h4, indi_momentum_h8);
       SetParamsByTf<StgParams>(_stg_params, _tf, stg_momentum_m1, stg_momentum_m5, stg_momentum_m15, stg_momentum_m30,
                                stg_momentum_h1, stg_momentum_h4, stg_momentum_h8);
     }
