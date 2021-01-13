@@ -6,7 +6,7 @@
 // Defines indicator's parameter values for the given pair symbol and timeframe.
 struct Indi_Momentum_Params_M5 : MomentumParams {
   Indi_Momentum_Params_M5() : MomentumParams(indi_momentum_defaults, PERIOD_M5) {
-    applied_price = (ENUM_APPLIED_PRICE)2;
+    applied_price = (ENUM_APPLIED_PRICE)1;
     period = 12;
     shift = 0;
   }
