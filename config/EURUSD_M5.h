@@ -1,4 +1,4 @@
-/*
+/**
  * @file
  * Defines default strategy parameter values for the given timeframe.
  */
@@ -7,7 +7,7 @@
 struct Indi_Momentum_Params_M5 : MomentumParams {
   Indi_Momentum_Params_M5() : MomentumParams(indi_momentum_defaults, PERIOD_M5) {
     applied_price = (ENUM_APPLIED_PRICE)1;
-    period = 12;
+    period = 24;
     shift = 0;
   }
 } indi_momentum_m5;
@@ -19,12 +19,12 @@ struct Stg_Momentum_Params_M5 : StgParams {
     lot_size = 0;
     signal_open_method = 0;
     signal_open_filter = 1;
-    signal_open_level = (float)0;
+    signal_open_level = (float)0.0;
     signal_open_boost = 0;
     signal_close_method = 0;
     signal_close_level = (float)0;
     price_stop_method = 0;
-    price_stop_level = (float)2;
+    price_stop_level = (float)1;
     tick_filter_method = 1;
     max_spread = 0;
   }

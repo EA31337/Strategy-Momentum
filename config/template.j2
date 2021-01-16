@@ -8,7 +8,7 @@ struct Indi_Momentum_Params_{{ Timeframe }} : MomentumParams {
   Indi_Momentum_Params_{{ Timeframe }}() : MomentumParams(indi_momentum_defaults, PERIOD_{{ Timeframe }}) {
     applied_price = (ENUM_APPLIED_PRICE){{ Momentum_Indi_Momentum_Applied_Price | default(0) }};
     period = {{ Momentum_Indi_Momentum_Period | default(0) }};
-    shift = {{ Momentum_Shift | default(0) }};
+    shift = {{ Momentum_Indi_Momentum_Shift | default(0) }};
   }
 } indi_momentum_{{ Timeframe | lower }};
 
