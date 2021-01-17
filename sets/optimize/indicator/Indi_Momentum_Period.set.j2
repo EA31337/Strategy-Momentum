@@ -1,12 +1,12 @@
 Momentum_Indi_Momentum_Applied_Price={{ applied_price | replace("(ENUM_APPLIED_PRICE)", "") | int | default(0) }}
-Momentum_Indi_Momentum_Period,1={{ (period | default(2) | int) | abs - 12 }}
+Momentum_Indi_Momentum_Period,1={{ ((period | default(2) | int) - 12) | abs }}
 Momentum_Indi_Momentum_Period,2=4
 Momentum_Indi_Momentum_Period,3={{ (period | default(2) | int) + 12 }}
 Momentum_Indi_Momentum_Period,F=1
 Momentum_Indi_Momentum_Period={{ (period | default(0) | int) }}
-Momentum_Indi_Momentum_Shift={{ shift | default(0) }}
+Momentum_Indi_Momentum_Shift={{ (shift | default(0) | int) }}
 Momentum_LotSize={{ lot_size | default(0) }}
 Momentum_PriceStopMethod=0
 Momentum_SignalOpenFilterMethod=1
-Momentum_SignalOpenLevel={{ (signal_open_level | default(0) | replace("(float)", "") | float) }}
+Momentum_SignalOpenLevel={{ signal_open_level | default(0) | float }}
 Momentum_TickFilterMethod=1
