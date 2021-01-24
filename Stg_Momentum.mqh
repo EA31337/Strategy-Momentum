@@ -87,7 +87,6 @@ class Stg_Momentum : public Strategy {
     _stg_params.SetTf(_tf, _Symbol);
     // Initialize strategy instance.
     Strategy *_strat = new Stg_Momentum(_stg_params, "Momentum");
-    _stg_params.SetStops(_strat, _strat);
     return _strat;
   }
 
