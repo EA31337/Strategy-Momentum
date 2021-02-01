@@ -72,12 +72,12 @@ class Stg_Momentum : public Strategy {
     // Initialize strategy initial values.
     MomentumParams _indi_params(indi_momentum_defaults, _tf);
     StgParams _stg_params(stg_momentum_defaults);
-    if (!Terminal::IsOptimization()) {
-      SetParamsByTf<MomentumParams>(_indi_params, _tf, indi_momentum_m1, indi_momentum_m5, indi_momentum_m15,
-                                    indi_momentum_m30, indi_momentum_h1, indi_momentum_h4, indi_momentum_h8);
-      SetParamsByTf<StgParams>(_stg_params, _tf, stg_momentum_m1, stg_momentum_m5, stg_momentum_m15, stg_momentum_m30,
-                               stg_momentum_h1, stg_momentum_h4, stg_momentum_h8);
-    }
+#ifdef __config__
+    SetParamsByTf<MomentumParams>(_indi_params, _tf, indi_momentum_m1, indi_momentum_m5, indi_momentum_m15,
+                                  indi_momentum_m30, indi_momentum_h1, indi_momentum_h4, indi_momentum_h8);
+    SetParamsByTf<StgParams>(_stg_params, _tf, stg_momentum_m1, stg_momentum_m5, stg_momentum_m15, stg_momentum_m30,
+                             stg_momentum_h1, stg_momentum_h4, stg_momentum_h8);
+#endif
     // Initialize indicator.
     MomentumParams mom_params(_indi_params);
     _stg_params.SetIndicator(new Indi_Momentum(_indi_params));
