@@ -1,5 +1,5 @@
 Momentum_Indi_Momentum_Applied_Price={{ applied_price | replace("(ENUM_APPLIED_PRICE)", "") | int | default(0) }}
-Momentum_Indi_Momentum_Period,1={{ ((period | default(2) | int) - 12) | abs }}
+Momentum_Indi_Momentum_Period,1={{ [((period | default(2) | int) - 12), 2] | max }}
 Momentum_Indi_Momentum_Period,2=4
 Momentum_Indi_Momentum_Period,3={{ (period | default(2) | int) + 12 }}
 Momentum_Indi_Momentum_Period,F=1

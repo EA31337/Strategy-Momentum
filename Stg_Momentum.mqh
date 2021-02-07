@@ -4,19 +4,20 @@
  */
 
 // User input params.
-INPUT float Momentum_LotSize = 0;               // Lot size
-INPUT float Momentum_SignalOpenLevel = 0.0f;    // Signal open level (in %)
-INPUT int Momentum_SignalOpenFilterMethod = 1;  // Signal open filter method (-7-7)
-INPUT int Momentum_SignalOpenBoostMethod = 0;   // Signal open boost method
-INPUT int Momentum_SignalOpenMethod = 0;        // Signal open method (0-
-INPUT float Momentum_SignalCloseLevel = 0.0f;   // Signal close level (in %)
-INPUT int Momentum_SignalCloseMethod = 0;       // Signal close method (-7-7)
-INPUT int Momentum_PriceStopMethod = 0;         // Price stop method
-INPUT float Momentum_PriceStopLevel = 0;        // Price stop level
-INPUT int Momentum_TickFilterMethod = 1;        // Tick filter method
-INPUT float Momentum_MaxSpread = 4.0;           // Max spread to trade (pips)
-INPUT int Momentum_Shift = 0;                   // Shift
-INPUT int Momentum_OrderCloseTime = -20;        // Order close time in mins (>0) or bars (<0)
+INPUT string __Momentum_Parameters__ = "-- Momentum strategy params --";  // >>> MOMENTUM <<<
+INPUT float Momentum_LotSize = 0;                                         // Lot size
+INPUT float Momentum_SignalOpenLevel = 0.0f;                              // Signal open level (in %)
+INPUT int Momentum_SignalOpenFilterMethod = 1;                            // Signal open filter method (-7-7)
+INPUT int Momentum_SignalOpenBoostMethod = 0;                             // Signal open boost method
+INPUT int Momentum_SignalOpenMethod = 0;                                  // Signal open method (0-
+INPUT float Momentum_SignalCloseLevel = 0.0f;                             // Signal close level (in %)
+INPUT int Momentum_SignalCloseMethod = 0;                                 // Signal close method (-7-7)
+INPUT int Momentum_PriceStopMethod = 0;                                   // Price stop method
+INPUT float Momentum_PriceStopLevel = 0;                                  // Price stop level
+INPUT int Momentum_TickFilterMethod = 1;                                  // Tick filter method
+INPUT float Momentum_MaxSpread = 4.0;                                     // Max spread to trade (pips)
+INPUT int Momentum_Shift = 0;                                             // Shift
+INPUT int Momentum_OrderCloseTime = -20;                                  // Order close time in mins (>0) or bars (<0)
 INPUT string __Momentum_Indi_Momentum_Parameters__ =
     "-- Momentum strategy: Momentum indicator params --";  // >>> Momentum strategy: Momentum indicator <<<
 INPUT int Momentum_Indi_Momentum_Period = 12;              // Averaging period
@@ -71,12 +72,12 @@ class Stg_Momentum : public Strategy {
     // Initialize strategy initial values.
     MomentumParams _indi_params(indi_momentum_defaults, _tf);
     StgParams _stg_params(stg_momentum_defaults);
-    if (!Terminal::IsOptimization()) {
-      SetParamsByTf<MomentumParams>(_indi_params, _tf, indi_momentum_m1, indi_momentum_m5, indi_momentum_m15,
-                                    indi_momentum_m30, indi_momentum_h1, indi_momentum_h4, indi_momentum_h8);
-      SetParamsByTf<StgParams>(_stg_params, _tf, stg_momentum_m1, stg_momentum_m5, stg_momentum_m15, stg_momentum_m30,
-                               stg_momentum_h1, stg_momentum_h4, stg_momentum_h8);
-    }
+#ifdef __config__
+    SetParamsByTf<MomentumParams>(_indi_params, _tf, indi_momentum_m1, indi_momentum_m5, indi_momentum_m15,
+                                  indi_momentum_m30, indi_momentum_h1, indi_momentum_h4, indi_momentum_h8);
+    SetParamsByTf<StgParams>(_stg_params, _tf, stg_momentum_m1, stg_momentum_m5, stg_momentum_m15, stg_momentum_m30,
+                             stg_momentum_h1, stg_momentum_h4, stg_momentum_h8);
+#endif
     // Initialize indicator.
     MomentumParams mom_params(_indi_params);
     _stg_params.SetIndicator(new Indi_Momentum(_indi_params));
@@ -86,7 +87,6 @@ class Stg_Momentum : public Strategy {
     _stg_params.SetTf(_tf, _Symbol);
     // Initialize strategy instance.
     Strategy *_strat = new Stg_Momentum(_stg_params, "Momentum");
-    _stg_params.SetStops(_strat, _strat);
     return _strat;
   }
 
