@@ -16,7 +16,7 @@ INPUT int Momentum_PriceStopMethod = 0;                                   // Pri
 INPUT float Momentum_PriceStopLevel = 0;                                  // Price stop level
 INPUT int Momentum_TickFilterMethod = 1;                                  // Tick filter method
 INPUT float Momentum_MaxSpread = 4.0;                                     // Max spread to trade (pips)
-INPUT int Momentum_Shift = 0;                                             // Shift
+INPUT short Momentum_Shift = 0;                                           // Shift
 INPUT int Momentum_OrderCloseTime = -20;                                  // Order close time in mins (>0) or bars (<0)
 INPUT string __Momentum_Indi_Momentum_Parameters__ =
     "-- Momentum strategy: Momentum indicator params --";  // >>> Momentum strategy: Momentum indicator <<<
