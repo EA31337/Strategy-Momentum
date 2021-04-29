@@ -49,7 +49,7 @@ struct Stg_Momentum_Params : StgParams {
 
   // Struct constructors.
   Stg_Momentum_Params(MomentumParams &_iparams, StgParams &_sparams)
-      : iparams(indi_momentum_defaults, _iparams.tf), sparams(stg_momentum_defaults) {
+      : iparams(indi_momentum_defaults, _iparams.tf.GetTf()), sparams(stg_momentum_defaults) {
     iparams = _iparams;
     sparams = _sparams;
   }
