@@ -7,12 +7,12 @@
 INPUT string __Momentum_Parameters__ = "-- Momentum strategy params --";  // >>> MOMENTUM <<<
 INPUT float Momentum_LotSize = 0;                                         // Lot size
 INPUT float Momentum_SignalOpenLevel = 0.0f;                              // Signal open level (in %)
-INPUT int Momentum_SignalOpenFilterMethod = 1;                            // Signal open filter method (-7-7)
+INPUT int Momentum_SignalOpenFilterMethod = 32;                            // Signal open filter method (-7-7)
 INPUT int Momentum_SignalOpenBoostMethod = 0;                             // Signal open boost method
-INPUT int Momentum_SignalOpenMethod = 0;                                  // Signal open method (0-
+INPUT int Momentum_SignalOpenMethod = 2;                                  // Signal open method (-127-127)
 INPUT float Momentum_SignalCloseLevel = 0.0f;                             // Signal close level (in %)
-INPUT int Momentum_SignalCloseMethod = 0;                                 // Signal close method (-7-7)
-INPUT int Momentum_PriceStopMethod = 0;                                   // Price stop method
+INPUT int Momentum_SignalCloseMethod = 2;                                 // Signal close method (-127-127)
+INPUT int Momentum_PriceStopMethod = 1;                                   // Price stop method
 INPUT float Momentum_PriceStopLevel = 0;                                  // Price stop level
 INPUT int Momentum_TickFilterMethod = 1;                                  // Tick filter method
 INPUT float Momentum_MaxSpread = 4.0;                                     // Max spread to trade (pips)
@@ -119,47 +119,5 @@ class Stg_Momentum : public Strategy {
       }
     }
     return _result;
-  }
-
-  /**
-   * Gets price stop value for profit take or stop loss.
-   */
-  float PriceStop(ENUM_ORDER_TYPE _cmd, ENUM_ORDER_TYPE_VALUE _mode, int _method = 0, float _level = 0.0) {
-    Indi_Momentum *_indi = GetIndicator();
-    bool _is_valid = _indi[CURR].IsValid() && _indi[PREV].IsValid() && _indi[PPREV].IsValid();
-    double _trail = _level * Market().GetPipSize();
-    int _direction = Order::OrderDirection(_cmd, _mode);
-    double _default_value = Market().GetCloseOffer(_cmd) + _trail * _method * _direction;
-    double _result = _default_value;
-    if (_is_valid) {
-      switch (_method) {
-        case 1: {
-          int _bar_count0 = (int)_level * (int)_indi.GetPeriod();
-          _result = _direction < 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest<double>(_bar_count0))
-                                   : _indi.GetPrice(PRICE_LOW, _indi.GetLowest<double>(_bar_count0));
-          break;
-        }
-        case 2: {
-          int _bar_count1 = (int)_level * (int)_indi.GetPeriod() * 2;
-          _result = _direction < 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest<double>(_bar_count1))
-                                   : _indi.GetPrice(PRICE_LOW, _indi.GetLowest<double>(_bar_count1));
-          break;
-        }
-        case 3: {
-          int _bar_count2 = (int)_level * (int)_indi.GetPeriod();
-          _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest<double>(_bar_count2))
-                                   : _indi.GetPrice(PRICE_LOW, _indi.GetLowest<double>(_bar_count2));
-          break;
-        }
-        case 4: {
-          int _bar_count3 = (int)_level * (int)_indi.GetPeriod() * 2;
-          _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest<double>(_bar_count3))
-                                   : _indi.GetPrice(PRICE_LOW, _indi.GetLowest<double>(_bar_count3));
-          break;
-        }
-      }
-      _result += _trail * _direction;
-    }
-    return (float)_result;
   }
 };
