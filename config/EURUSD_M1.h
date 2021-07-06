@@ -17,7 +17,7 @@ struct Stg_Momentum_Params_M1 : StgParams {
   // Struct constructor.
   Stg_Momentum_Params_M1() : StgParams(stg_momentum_defaults) {
     lot_size = 0;
-    signal_open_method = -1;
+    signal_open_method = 2;
     signal_open_filter = 32;
     signal_open_level = (float)0.0;
     signal_open_boost = 0;
