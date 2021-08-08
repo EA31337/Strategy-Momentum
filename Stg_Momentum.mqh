@@ -4,23 +4,22 @@
  */
 
 // User input params.
-INPUT string __Momentum_Parameters__ = "-- Momentum strategy params --";  // >>> MOMENTUM <<<
-INPUT float Momentum_LotSize = 0;                                         // Lot size
-INPUT float Momentum_SignalOpenLevel = 0.0f;                              // Signal open level (in %)
-INPUT int Momentum_SignalOpenFilterMethod = 32;                           // Signal open filter method (-7-7)
-INPUT int Momentum_SignalOpenBoostMethod = 0;                             // Signal open boost method
-INPUT int Momentum_SignalOpenMethod = 2;                                  // Signal open method (-127-127)
-INPUT float Momentum_SignalCloseLevel = 0.0f;                             // Signal close level (in %)
-INPUT int Momentum_SignalCloseMethod = 2;                                 // Signal close method (-127-127)
-INPUT int Momentum_PriceStopMethod = 1;                                   // Price stop method
-INPUT float Momentum_PriceStopLevel = 0;                                  // Price stop level
-INPUT int Momentum_TickFilterMethod = 1;                                  // Tick filter method
-INPUT float Momentum_MaxSpread = 4.0;                                     // Max spread to trade (pips)
-INPUT short Momentum_Shift = 0;                                           // Shift
-INPUT int Momentum_OrderCloseTime = -20;                                  // Order close time in mins (>0) or bars (<0)
-INPUT string __Momentum_Indi_Momentum_Parameters__ =
-    "-- Momentum strategy: Momentum indicator params --";  // >>> Momentum strategy: Momentum indicator <<<
-INPUT int Momentum_Indi_Momentum_Period = 12;              // Averaging period
+INPUT_GROUP("Momentum strategy: strategy params");
+INPUT float Momentum_LotSize = 0;                // Lot size
+INPUT float Momentum_SignalOpenLevel = 0.0f;     // Signal open level (in %)
+INPUT int Momentum_SignalOpenFilterMethod = 32;  // Signal open filter method (-7-7)
+INPUT int Momentum_SignalOpenBoostMethod = 0;    // Signal open boost method
+INPUT int Momentum_SignalOpenMethod = 2;         // Signal open method (-127-127)
+INPUT float Momentum_SignalCloseLevel = 0.0f;    // Signal close level (in %)
+INPUT int Momentum_SignalCloseMethod = 2;        // Signal close method (-127-127)
+INPUT int Momentum_PriceStopMethod = 1;          // Price stop method
+INPUT float Momentum_PriceStopLevel = 0;         // Price stop level
+INPUT int Momentum_TickFilterMethod = 1;         // Tick filter method
+INPUT float Momentum_MaxSpread = 4.0;            // Max spread to trade (pips)
+INPUT short Momentum_Shift = 0;                  // Shift
+INPUT int Momentum_OrderCloseTime = -20;         // Order close time in mins (>0) or bars (<0)
+INPUT_GROUP("Momentum strategy: Momentum indicator params");
+INPUT int Momentum_Indi_Momentum_Period = 12;                                 // Averaging period
 INPUT ENUM_APPLIED_PRICE Momentum_Indi_Momentum_Applied_Price = PRICE_CLOSE;  // Applied Price
 INPUT int Momentum_Indi_Momentum_Shift = 0;                                   // Shift
 
