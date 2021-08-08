@@ -12,6 +12,7 @@ INPUT int Momentum_SignalOpenBoostMethod = 0;    // Signal open boost method
 INPUT int Momentum_SignalOpenMethod = 2;         // Signal open method (-127-127)
 INPUT float Momentum_SignalCloseLevel = 0.0f;    // Signal close level (in %)
 INPUT int Momentum_SignalCloseMethod = 2;        // Signal close method (-127-127)
+INPUT int Momentum_SignalCloseFilter = 0;        // Signal close filter (-127-127)
 INPUT int Momentum_PriceStopMethod = 1;          // Price stop method
 INPUT float Momentum_PriceStopLevel = 0;         // Price stop level
 INPUT int Momentum_TickFilterMethod = 1;         // Tick filter method
@@ -36,9 +37,9 @@ struct Indi_Momentum_Params_Defaults : MomentumParams {
 struct Stg_Momentum_Params_Defaults : StgParams {
   Stg_Momentum_Params_Defaults()
       : StgParams(::Momentum_SignalOpenMethod, ::Momentum_SignalOpenFilterMethod, ::Momentum_SignalOpenLevel,
-                  ::Momentum_SignalOpenBoostMethod, ::Momentum_SignalCloseMethod, ::Momentum_SignalCloseLevel,
-                  ::Momentum_PriceStopMethod, ::Momentum_PriceStopLevel, ::Momentum_TickFilterMethod,
-                  ::Momentum_MaxSpread, ::Momentum_Shift, ::Momentum_OrderCloseTime) {}
+                  ::Momentum_SignalOpenBoostMethod, ::Momentum_SignalCloseMethod, ::Momentum_SignalCloseFilter,
+                  ::Momentum_SignalCloseLevel, ::Momentum_PriceStopMethod, ::Momentum_PriceStopLevel,
+                  ::Momentum_TickFilterMethod, ::Momentum_MaxSpread, ::Momentum_Shift, ::Momentum_OrderCloseTime) {}
 } stg_momentum_defaults;
 
 // Struct to define strategy parameters to override.
