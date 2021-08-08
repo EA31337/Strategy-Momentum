@@ -18,6 +18,8 @@ INPUT float Momentum_PriceStopLevel = 0;         // Price stop level
 INPUT int Momentum_TickFilterMethod = 1;         // Tick filter method
 INPUT float Momentum_MaxSpread = 4.0;            // Max spread to trade (pips)
 INPUT short Momentum_Shift = 0;                  // Shift
+INPUT float Momentum_OrderCloseLoss = 0;         // Order close loss
+INPUT float Momentum_OrderCloseProfit = 0;       // Order close profit
 INPUT int Momentum_OrderCloseTime = -20;         // Order close time in mins (>0) or bars (<0)
 INPUT_GROUP("Momentum strategy: Momentum indicator params");
 INPUT int Momentum_Indi_Momentum_Period = 12;                                 // Averaging period
@@ -39,7 +41,11 @@ struct Stg_Momentum_Params_Defaults : StgParams {
       : StgParams(::Momentum_SignalOpenMethod, ::Momentum_SignalOpenFilterMethod, ::Momentum_SignalOpenLevel,
                   ::Momentum_SignalOpenBoostMethod, ::Momentum_SignalCloseMethod, ::Momentum_SignalCloseFilter,
                   ::Momentum_SignalCloseLevel, ::Momentum_PriceStopMethod, ::Momentum_PriceStopLevel,
-                  ::Momentum_TickFilterMethod, ::Momentum_MaxSpread, ::Momentum_Shift, ::Momentum_OrderCloseTime) {}
+                  ::Momentum_TickFilterMethod, ::Momentum_MaxSpread, ::Momentum_Shift) {
+    Set(STRAT_PARAM_OCL, Momentum_OrderCloseLoss);
+    Set(STRAT_PARAM_OCP, Momentum_OrderCloseProfit);
+    Set(STRAT_PARAM_OCT, Momentum_OrderCloseTime);
+  }
 } stg_momentum_defaults;
 
 // Struct to define strategy parameters to override.
