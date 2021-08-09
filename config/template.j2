@@ -18,7 +18,7 @@ struct Stg_Momentum_Params_{{ Timeframe }} : StgParams {
   Stg_Momentum_Params_{{ Timeframe }}() : StgParams(stg_momentum_defaults) {
     lot_size = {{ Momentum_LotSize | default(0) }};
     signal_open_method = {{ Momentum_SignalOpenMethod | default(0) }};
-    signal_open_filter = {{ Momentum_SignalOpenFilterMethod | default(1) }};
+    signal_open_filter_method = {{ Momentum_SignalOpenFilterMethod | default(1) }};
     signal_open_level = (float){{ Momentum_SignalOpenLevel | default(0) }};
     signal_open_boost = {{ Momentum_SignalOpenBoostMethod | default(0) }};
     signal_close_method = {{ Momentum_SignalCloseMethod | default(0) }};
