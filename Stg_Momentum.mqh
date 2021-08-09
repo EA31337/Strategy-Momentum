@@ -8,6 +8,7 @@ INPUT_GROUP("Momentum strategy: strategy params");
 INPUT float Momentum_LotSize = 0;                // Lot size
 INPUT float Momentum_SignalOpenLevel = 0.0f;     // Signal open level (in %)
 INPUT int Momentum_SignalOpenFilterMethod = 32;  // Signal open filter method (-7-7)
+INPUT int Momentum_SignalOpenFilterTime = 6;     // Signal open filter time (-7-7)
 INPUT int Momentum_SignalOpenBoostMethod = 0;    // Signal open boost method
 INPUT int Momentum_SignalOpenMethod = 2;         // Signal open method (-127-127)
 INPUT float Momentum_SignalCloseLevel = 0.0f;    // Signal close level (in %)
@@ -45,6 +46,7 @@ struct Stg_Momentum_Params_Defaults : StgParams {
     Set(STRAT_PARAM_OCL, Momentum_OrderCloseLoss);
     Set(STRAT_PARAM_OCP, Momentum_OrderCloseProfit);
     Set(STRAT_PARAM_OCT, Momentum_OrderCloseTime);
+    Set(STRAT_PARAM_SOFT, Momentum_SignalOpenFilterTime);
   }
 } stg_momentum_defaults;
 
