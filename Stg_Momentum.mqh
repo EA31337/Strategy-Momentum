@@ -8,13 +8,13 @@ INPUT_GROUP("Momentum strategy: strategy params");
 INPUT float Momentum_LotSize = 0;                // Lot size
 INPUT float Momentum_SignalOpenLevel = 0.0f;     // Signal open level (in %)
 INPUT int Momentum_SignalOpenFilterMethod = 32;  // Signal open filter method (-7-7)
-INPUT int Momentum_SignalOpenFilterTime = 6;     // Signal open filter time (-7-7)
+INPUT int Momentum_SignalOpenFilterTime = 8;     // Signal open filter time (-7-7)
 INPUT int Momentum_SignalOpenBoostMethod = 0;    // Signal open boost method
 INPUT int Momentum_SignalOpenMethod = 2;         // Signal open method (-127-127)
 INPUT float Momentum_SignalCloseLevel = 0.0f;    // Signal close level (in %)
 INPUT int Momentum_SignalCloseMethod = 2;        // Signal close method (-127-127)
 INPUT int Momentum_SignalCloseFilter = 0;        // Signal close filter (-127-127)
-INPUT int Momentum_PriceStopMethod = 1;          // Price stop method
+INPUT int Momentum_PriceStopMethod = 1;          // Price stop method (0-127)
 INPUT float Momentum_PriceStopLevel = 0;         // Price stop level
 INPUT int Momentum_TickFilterMethod = 1;         // Tick filter method
 INPUT float Momentum_MaxSpread = 4.0;            // Max spread to trade (pips)
