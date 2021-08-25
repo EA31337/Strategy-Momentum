@@ -21,7 +21,7 @@ INPUT float Momentum_MaxSpread = 4.0;            // Max spread to trade (pips)
 INPUT short Momentum_Shift = 0;                  // Shift
 INPUT float Momentum_OrderCloseLoss = 0;         // Order close loss
 INPUT float Momentum_OrderCloseProfit = 0;       // Order close profit
-INPUT int Momentum_OrderCloseTime = -20;         // Order close time in mins (>0) or bars (<0)
+INPUT int Momentum_OrderCloseTime = -30;         // Order close time in mins (>0) or bars (<0)
 INPUT_GROUP("Momentum strategy: Momentum indicator params");
 INPUT int Momentum_Indi_Momentum_Period = 12;                                 // Averaging period
 INPUT ENUM_APPLIED_PRICE Momentum_Indi_Momentum_Applied_Price = PRICE_CLOSE;  // Applied Price
