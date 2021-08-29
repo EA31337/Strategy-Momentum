@@ -43,6 +43,7 @@ struct Stg_Momentum_Params_Defaults : StgParams {
                   ::Momentum_SignalOpenBoostMethod, ::Momentum_SignalCloseMethod, ::Momentum_SignalCloseFilter,
                   ::Momentum_SignalCloseLevel, ::Momentum_PriceStopMethod, ::Momentum_PriceStopLevel,
                   ::Momentum_TickFilterMethod, ::Momentum_MaxSpread, ::Momentum_Shift) {
+    Set(STRAT_PARAM_LS, Momentum_LotSize);
     Set(STRAT_PARAM_OCL, Momentum_OrderCloseLoss);
     Set(STRAT_PARAM_OCP, Momentum_OrderCloseProfit);
     Set(STRAT_PARAM_OCT, Momentum_OrderCloseTime);
