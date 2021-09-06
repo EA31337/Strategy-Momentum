@@ -19,8 +19,8 @@ INPUT float Momentum_PriceStopLevel = 2;         // Price stop level
 INPUT int Momentum_TickFilterMethod = 32;        // Tick filter method
 INPUT float Momentum_MaxSpread = 4.0;            // Max spread to trade (pips)
 INPUT short Momentum_Shift = 0;                  // Shift
-INPUT float Momentum_OrderCloseLoss = 0;         // Order close loss
-INPUT float Momentum_OrderCloseProfit = 0;       // Order close profit
+INPUT float Momentum_OrderCloseLoss = 80;        // Order close loss
+INPUT float Momentum_OrderCloseProfit = 80;      // Order close profit
 INPUT int Momentum_OrderCloseTime = -30;         // Order close time in mins (>0) or bars (<0)
 INPUT_GROUP("Momentum strategy: Momentum indicator params");
 INPUT int Momentum_Indi_Momentum_Period = 12;                                 // Averaging period
