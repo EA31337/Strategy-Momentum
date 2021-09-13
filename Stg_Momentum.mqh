@@ -34,7 +34,7 @@ struct Indi_Momentum_Params_Defaults : MomentumParams {
   Indi_Momentum_Params_Defaults()
       : MomentumParams(::Momentum_Indi_Momentum_Period, ::Momentum_Indi_Momentum_Applied_Price,
                        ::Momentum_Indi_Momentum_Shift) {}
-} indi_momentum_defaults;
+};
 
 // Defines struct with default user strategy values.
 struct Stg_Momentum_Params_Defaults : StgParams {
@@ -49,7 +49,7 @@ struct Stg_Momentum_Params_Defaults : StgParams {
     Set(STRAT_PARAM_OCT, Momentum_OrderCloseTime);
     Set(STRAT_PARAM_SOFT, Momentum_SignalOpenFilterTime);
   }
-} stg_momentum_defaults;
+};
 
 #ifdef __config__
 // Loads pair specific param values.
@@ -69,7 +69,9 @@ class Stg_Momentum : public Strategy {
 
   static Stg_Momentum *Init(ENUM_TIMEFRAMES _tf = NULL) {
     // Initialize strategy initial values.
+    Indi_Momentum_Params_Defaults indi_momentum_defaults;
     MomentumParams _indi_params(indi_momentum_defaults, _tf);
+    Stg_Momentum_Params_Defaults stg_momentum_defaults;
     StgParams _stg_params(stg_momentum_defaults);
 #ifdef __config__
     SetParamsByTf<MomentumParams>(_indi_params, _tf, indi_momentum_m1, indi_momentum_m5, indi_momentum_m15,
