@@ -80,7 +80,6 @@ class Stg_Momentum : public Strategy {
                              stg_momentum_h1, stg_momentum_h4, stg_momentum_h8);
 #endif
     // Initialize indicator.
-    MomentumParams mom_params(_indi_params);
     _stg_params.SetIndicator(new Indi_Momentum(_indi_params));
     // Initialize Strategy instance.
     ChartParams _cparams(_tf, _Symbol);
