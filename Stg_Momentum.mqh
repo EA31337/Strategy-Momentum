@@ -80,11 +80,11 @@ class Stg_Momentum : public Strategy {
                              stg_momentum_h1, stg_momentum_h4, stg_momentum_h8);
 #endif
     // Initialize indicator.
-    _stg_params.SetIndicator(new Indi_Momentum(_indi_params));
     // Initialize Strategy instance.
     ChartParams _cparams(_tf, _Symbol);
     TradeParams _tparams;
     Strategy *_strat = new Stg_Momentum(_stg_params, _tparams, _cparams, "Momentum");
+    _strat.SetIndicator(new Indi_Momentum(_indi_params));
     return _strat;
   }
 
