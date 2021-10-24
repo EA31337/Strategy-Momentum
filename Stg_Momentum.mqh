@@ -30,10 +30,10 @@ INPUT int Momentum_Indi_Momentum_Shift = 0;                                   //
 // Structs.
 
 // Defines struct with default user indicator values.
-struct Indi_Momentum_Params_Defaults : MomentumParams {
+struct Indi_Momentum_Params_Defaults : IndiMomentumParams {
   Indi_Momentum_Params_Defaults()
-      : MomentumParams(::Momentum_Indi_Momentum_Period, ::Momentum_Indi_Momentum_Applied_Price,
-                       ::Momentum_Indi_Momentum_Shift) {}
+      : IndiMomentumParams(::Momentum_Indi_Momentum_Period, ::Momentum_Indi_Momentum_Applied_Price,
+                           ::Momentum_Indi_Momentum_Shift) {}
 };
 
 // Defines struct with default user strategy values.
@@ -70,12 +70,12 @@ class Stg_Momentum : public Strategy {
   static Stg_Momentum *Init(ENUM_TIMEFRAMES _tf = NULL) {
     // Initialize strategy initial values.
     Indi_Momentum_Params_Defaults indi_momentum_defaults;
-    MomentumParams _indi_params(indi_momentum_defaults, _tf);
+    IndiMomentumParams _indi_params(indi_momentum_defaults, _tf);
     Stg_Momentum_Params_Defaults stg_momentum_defaults;
     StgParams _stg_params(stg_momentum_defaults);
 #ifdef __config__
-    SetParamsByTf<MomentumParams>(_indi_params, _tf, indi_momentum_m1, indi_momentum_m5, indi_momentum_m15,
-                                  indi_momentum_m30, indi_momentum_h1, indi_momentum_h4, indi_momentum_h8);
+    SetParamsByTf<IndiMomentumParams>(_indi_params, _tf, indi_momentum_m1, indi_momentum_m5, indi_momentum_m15,
+                                      indi_momentum_m30, indi_momentum_h1, indi_momentum_h4, indi_momentum_h8);
     SetParamsByTf<StgParams>(_stg_params, _tf, stg_momentum_m1, stg_momentum_m5, stg_momentum_m15, stg_momentum_m30,
                              stg_momentum_h1, stg_momentum_h4, stg_momentum_h8);
 #endif

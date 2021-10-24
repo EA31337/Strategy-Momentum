@@ -4,8 +4,8 @@
  */
 
 // Defines indicator's parameter values for the given pair symbol and timeframe.
-struct Indi_Momentum_Params_H4 : MomentumParams {
-  Indi_Momentum_Params_H4() : MomentumParams(indi_momentum_defaults, PERIOD_H4) { shift = 0; }
+struct Indi_Momentum_Params_H4 : IndiMomentumParams {
+  Indi_Momentum_Params_H4() : IndiMomentumParams(indi_momentum_defaults, PERIOD_H4) { shift = 0; }
 } indi_momentum_h4;
 
 // Defines strategy's parameter values for the given pair symbol and timeframe.
