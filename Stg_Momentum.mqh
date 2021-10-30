@@ -69,13 +69,9 @@ class Stg_Momentum : public Strategy {
 
   static Stg_Momentum *Init(ENUM_TIMEFRAMES _tf = NULL) {
     // Initialize strategy initial values.
-    Indi_Momentum_Params_Defaults indi_momentum_defaults;
-    IndiMomentumParams _indi_params(indi_momentum_defaults, _tf);
     Stg_Momentum_Params_Defaults stg_momentum_defaults;
     StgParams _stg_params(stg_momentum_defaults);
 #ifdef __config__
-    SetParamsByTf<IndiMomentumParams>(_indi_params, _tf, indi_momentum_m1, indi_momentum_m5, indi_momentum_m15,
-                                      indi_momentum_m30, indi_momentum_h1, indi_momentum_h4, indi_momentum_h8);
     SetParamsByTf<StgParams>(_stg_params, _tf, stg_momentum_m1, stg_momentum_m5, stg_momentum_m15, stg_momentum_m30,
                              stg_momentum_h1, stg_momentum_h4, stg_momentum_h8);
 #endif
@@ -84,8 +80,16 @@ class Stg_Momentum : public Strategy {
     ChartParams _cparams(_tf, _Symbol);
     TradeParams _tparams;
     Strategy *_strat = new Stg_Momentum(_stg_params, _tparams, _cparams, "Momentum");
-    _strat.SetIndicator(new Indi_Momentum(_indi_params));
     return _strat;
+  }
+
+  /**
+   * Event on strategy's init.
+   */
+  void OnInit() {
+    Indi_Momentum_Params_Defaults indi_momentum_defaults;
+    IndiMomentumParams _indi_params(indi_momentum_defaults, Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
+    SetIndicator(new Indi_Momentum(_indi_params));
   }
 
   /**
