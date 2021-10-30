@@ -29,13 +29,6 @@ INPUT int Momentum_Indi_Momentum_Shift = 0;                                   //
 
 // Structs.
 
-// Defines struct with default user indicator values.
-struct Indi_Momentum_Params_Defaults : IndiMomentumParams {
-  Indi_Momentum_Params_Defaults()
-      : IndiMomentumParams(::Momentum_Indi_Momentum_Period, ::Momentum_Indi_Momentum_Applied_Price,
-                           ::Momentum_Indi_Momentum_Shift) {}
-};
-
 // Defines struct with default user strategy values.
 struct Stg_Momentum_Params_Defaults : StgParams {
   Stg_Momentum_Params_Defaults()
@@ -87,8 +80,9 @@ class Stg_Momentum : public Strategy {
    * Event on strategy's init.
    */
   void OnInit() {
-    Indi_Momentum_Params_Defaults indi_momentum_defaults;
-    IndiMomentumParams _indi_params(indi_momentum_defaults, Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
+    IndiMomentumParams _indi_params(::Momentum_Indi_Momentum_Period, ::Momentum_Indi_Momentum_Applied_Price,
+                                    ::Momentum_Indi_Momentum_Shift);
+    _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
     SetIndicator(new Indi_Momentum(_indi_params));
   }
 
