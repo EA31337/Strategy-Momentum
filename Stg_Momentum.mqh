@@ -100,12 +100,12 @@ class Stg_Momentum : public Strategy {
     switch (_cmd) {
       case ORDER_TYPE_BUY:
         _result &= _indi.IsIncreasing(2);
-        _result &= _indi.IsIncByPct(_level, 0, 0, 2);
+        _result &= _indi.IsIncByPct(_level, 0, _shift, 2);
         _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
         break;
       case ORDER_TYPE_SELL:
         _result &= _indi.IsDecreasing(2);
-        _result &= _indi.IsDecByPct(-_level, 0, 0, 2);
+        _result &= _indi.IsDecByPct(-_level, 0, _shift, 2);
         _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
         break;
     }
